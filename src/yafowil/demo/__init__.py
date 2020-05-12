@@ -12,6 +12,8 @@ from yafowil.controller import Controller
 from yafowil.resources import YafowilResources
 from yafowil.utils import get_example
 from yafowil.utils import get_example_names
+
+import datetime
 import docutils.core
 import lxml.etree
 import lxml.html
@@ -138,7 +140,7 @@ def render_forms(example, environ, plugin_name):
         form["form_actions"]["submit"] = factory(
             "field:div:#button",
             props={
-                "label": "submit",
+                "text": "submit",
                 "action": "save",
                 "div.class_add": "col-sm-offset-2 col-sm-10",
                 "handler": handler,
@@ -218,6 +220,7 @@ def app(environ, start_response):
             example_names=sorted(get_example_names()),
             sections=sections,
             current_name=plugin_name,
+            current_year=datetime.datetime.now().year,
         )
         return Response(body=body)(environ, start_response)
     except:
