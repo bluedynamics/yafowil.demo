@@ -1,18 +1,3 @@
-body {
-    padding-bottom:44px;
-    overflow-y:scroll;
-}
-.navbar-top {
-    border-radius:0;
-    border-width:0 0 1px;
-}
-.list-group-item .list-unstyled {
-    margin-left:1em;
-    margin-top:0.4em;
-}
-.list-group-item .list-unstyled li {
-    padding-bottom:0.25em;
-}
-footer p {
-    margin:12px;
+.highlight {
+    padding:5px 10px;
 }

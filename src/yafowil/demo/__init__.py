@@ -1,7 +1,7 @@
 from chameleon import PageTemplateLoader
 from docutils import nodes
-from docutils.writers.html4css1 import HTMLTranslator
-from docutils.writers.html4css1 import Writer
+from docutils.writers.html5_polyglot import HTMLTranslator
+from docutils.writers.html5_polyglot import Writer
 from sphinx.highlighting import PygmentsBridge
 from webob import Request
 from webob import Response
@@ -133,16 +133,13 @@ def render_forms(example, environ, plugin_name):
         action = "/++widget++%s/index.html#%s" % (plugin_name, widget.name)
         form = factory(u"#form", name=widget.name, props={"action": action})
         form[widget.name] = widget
-        form["form_actions"] = factory(
-            "div", props={"class": "form-actions", "structural": True,}
-        )
         handler = part.get("handler", dummy_save)
-        form["form_actions"]["submit"] = factory(
-            "field:div:#button",
+        form["submit"] = factory(
+            "#button",
             props={
-                "text": "submit",
+                "text": "Submit",
                 "action": "save",
-                "div.class_add": "col-sm-offset-2 col-sm-10",
+                "div.class_add": "btn-primary",
                 "handler": handler,
                 "next": lambda req: True,
             },
@@ -220,6 +217,7 @@ def app(environ, start_response):
             example_names=sorted(get_example_names()),
             sections=sections,
             current_name=plugin_name,
+            current_version="xx.xx",
             current_year=datetime.datetime.now().year,
         )
         return Response(body=body)(environ, start_response)

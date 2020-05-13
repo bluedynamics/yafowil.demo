@@ -10,10 +10,6 @@
     <title>YAFOWIL Examples - ${current_name or 'Main'}</title>
     <link rel="shortcut icon" href="/favicon.ico" />
 
-    <tal:js repeat="res resources['js']">
-      <script src="${res}"></script>
-    </tal:js>
-
     <link href="/pygments.css"
           rel="stylesheet"
           type="text/css"
@@ -30,71 +26,73 @@
 
   <body>
 
-    <a href="https://github.com/bluedynamics/${current_name or 'yafowil.demo'}">
+    <a href="https://github.com/bluedynamics/${current_name if current_name else 'yafowil.demo'}">
       <img style="position:absolute;
                   top:40px;
                   right:0;
                   border:0;"
            src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"
            alt="Fork me on GitHub"
-           title="Fork ${current_name or 'yafowil.demo'} on GitHub">
+           title="Fork ${current_name if current_name else 'yafowil.demo'} on GitHub">
     </a>
 
-    <div class="navbar navbar-inverse navbar-top">
-      <div class="container">
-        <div class="navbar-header">
-          <a href="/" class="navbar-brand">
-            YAFOWIL Examples
-            <span tal:condition="current_name">
-              - <span tal:replace="current_name">yafowil</span>
-            </span>
-          </a>
-          <span class="navbar-text navbar-version pull-left">
-            <b>2.3</b>
-          </span>
-        </div>
-      </div>
-    </div>
 
-    <div class="container content-wrapper">
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+      <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/"><a class="navbar-brand" href="/"><strong>YAFOWIL</strong> Demo <tal:if tal:condition="current_name"> &mdash; ${current_name} ${current_version}</tal:if></a>
+      <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link" href="#">Documentation</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="container-fluid">
       <div class="row">
-
-        <div class="col-md-3">
-
-          <ul class="list-group">
-            <li class="list-group-item active">Packages</li>
-            <tal:li repeat="example_name example_names">
-              <li class="list-group-item ${' list-group-item-warning' if current_name==example_name else ''}">
-                <a href="${'/++widget++' + example_name + '/index.html'}"
-                   tal:content="example_name">
-                  plugin name
-                </a>
-                <ul class="list-unstyled"
-                    tal:condition="current_name == example_name and len(sections) > 1">
-                  <li tal:repeat="section sections">
-                    <a href="${'#' + section['id']}"
-                       tal:content="section['title']">title</a>
-                  </li>
-                </ul>
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" style="">
+          <div class="sidebar-sticky pt-3">
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>Packages</span>
+            </h6>
+            <ul class="nav flex-column">
+              <li class="nav-item" tal:repeat="example_name example_names">
+                <tal:if tal:condition="current_name!=example_name">
+                  <a class="nav-link collapsed text-truncate" href="${'/++widget++' + example_name + '/index.html'}" aria-expanded="false">
+                    ${example_name}
+                  </a>
+                </tal:if>
+                <tal:if tal:condition="current_name==example_name">
+                  <a class="nav-link active text-truncate" href="${'/++widget++' + example_name + '/index.html'}" aria-expanded="true">
+                    ${example_name} <span class="sr-only">(current)</span>
+                  </a>
+                  <ul class="flex-column pl-2 nav">
+                    <li tal:repeat="section sections" class="nav-item">
+                      <a href="${'#' + section['id']}"
+                         class="nav-link">${section['title']}</a>
+                    </li>
+                  </ul>
+                </tal:if>
               </li>
-            </tal:li>
-          </ul>
-
-        </div>
-
-        <div class="col-md-9">
-
+            </ul>
+          </div>
+        </nav>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
           <div tal:condition="forms">
+            <h1 class="bd-title">${current_name}</h1>
+            <p class="text-muted"><a href="https://github.com/bluedynamics/${current_name}">${current_name} source code</a></p>
+
             <div class="example-form" tal:repeat="part forms">
               <tal:part replace="structure part['doc']" />
               <tal:part replace="structure part['form']" />
+
             </div>
           </div>
 
           <div tal:condition="not forms">
             <img class="yafowil-logo"
-                 src="/++resource++yafowil.demo/yafowil.png" 
-                 alt="yafowil logo" 
+                 src="/++resource++yafowil.demo/yafowil.png"
+                 alt="yafowil logo"
                  title="yafowil - declarative forms" />
             <p>
               <strong>
@@ -118,20 +116,20 @@
               own macros.
             </p>
           </div>
+        </main>
+        <footer class="footer mt-auto py-3">
+          <div class="container">
+            <span class="text-muted">
+              Copyright (c) 2010-${current_year}
+              <a href="http://www.bluedynamics.eu/">BlueDynamics Alliance</a>.
+            </span>
+          </div>
+        </footer>
+      </div> <!-- row -->
+    </div> <!-- container-fluid -->
 
-        </div>
-      </div>
-
-      <footer class="navbar-default navbar-fixed-bottom">
-        <div class="container">
-          <p>
-            Copyright (c) 2010-2018
-            <a href="http://www.bluedynamics.eu/">BlueDynamics Alliance</a>.
-          </p>
-        </div>
-      </footer>
-
-    </div>
-  </body>
+  <tal:js repeat="res resources['js']">
+    <script src="${res}"></script>
+  </tal:js>  </body>
 
 </html>
