@@ -78,18 +78,18 @@
           </div>
         </nav>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-          <div tal:condition="forms">
-            <h1 class="bd-title">${current_name}</h1>
+          <tal:if tal:condition="forms">
+            <h1 class="bd-title">${current_name} ${current_version}</h1>
             <p class="text-muted"><a href="https://github.com/bluedynamics/${current_name}">${current_name} source code</a></p>
 
-            <div class="example-form" tal:repeat="part forms">
+            <tal:loop tal:repeat="part forms">
+              <hr />
               <tal:part replace="structure part['doc']" />
               <tal:part replace="structure part['form']" />
+            </tal:loop>
+          </tal:if>
 
-            </div>
-          </div>
-
-          <div tal:condition="not forms">
+          <tal:if tal:condition="not forms">
             <img class="yafowil-logo"
                  src="/++resource++yafowil.demo/yafowil.png"
                  alt="yafowil logo"
@@ -115,7 +115,7 @@
               to skip the use of yafowil.bootstrap or if you want to define your
               own macros.
             </p>
-          </div>
+          </tal:if>
         </main>
         <footer class="footer mt-auto py-3">
           <div class="container">

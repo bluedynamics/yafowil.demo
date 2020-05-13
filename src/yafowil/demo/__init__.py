@@ -20,6 +20,7 @@ import lxml.html
 import os
 import sys
 import traceback
+import pkg_resources
 import yafowil.loader  # noqa
 import yafowil.webob  # noqa
 
@@ -192,6 +193,8 @@ def app(environ, start_response):
             splitted = path.split("/")
             plugin_name = splitted[0][10:]
             resources = get_resources(plugin_name)
+            dist = pkg_resources.get_distribution(plugin_name)
+            plugin_version = dist.version
             example = get_example(plugin_name)
             if splitted[1] != "index.html":
                 return execute_route(example, splitted[1], environ, start_response)
@@ -217,7 +220,7 @@ def app(environ, start_response):
             example_names=sorted(get_example_names()),
             sections=sections,
             current_name=plugin_name,
-            current_version="xx.xx",
+            current_version=plugin_version,
             current_year=datetime.datetime.now().year,
         )
         return Response(body=body)(environ, start_response)
