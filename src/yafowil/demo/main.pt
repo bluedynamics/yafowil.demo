@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>YAFOWIL Examples - ${current_name or 'Main'}</title>
+    <title>YAFOWIL Examples - ${current_name or 'Home'}</title>
     <link rel="shortcut icon" href="/favicon.ico" />
 
     <link href="/pygments.css"

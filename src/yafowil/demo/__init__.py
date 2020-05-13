@@ -209,6 +209,7 @@ def app(environ, start_response):
             forms = render_forms(example, environ, plugin_name)
         else:
             plugin_name = None
+            plugin_version = None
             resources = get_resources()
             sections = list()
             forms = None
